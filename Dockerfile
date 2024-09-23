@@ -14,5 +14,3 @@ RUN poetry install --no-root --no-dev
 RUN poetry update
 
 COPY . .
-
-EXPOSE 8000
