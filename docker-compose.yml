@@ -1,0 +1,42 @@
+version: "3.9"
+services:
+  wed:
+    build: .
+    container_name: fastapi_bookshelf
+    external_links: 
+      - postgres_bookshelf:postgres_bookshelf
+    volumes:
+      - ./src:/src
+    ports:
+      - "8000:8000"
+  postgres:
+    image: postgres:13.3
+    container_name: postgres_bookshelf
+    env_file:
+      - ./.env
+    volumes:
+      - .:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+  rabbitmq:  
+    image: rabbitmq:management  
+    container_name: rabbitmq_bookshelf
+    ports: 
+      - "5672:5672"  
+      - "15672:15672"  
+    env_file:
+      - ./.env 
+    volumes:  
+      - rabbitmq_data:/var/lib/rabbitmq  
+  redis:
+    image: redis:latest
+    container_name: redis_bookshelf
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+
+volumes:  
+    rabbitmq_data:  
+    redis-data:
