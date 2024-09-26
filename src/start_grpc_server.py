@@ -1,4 +1,4 @@
-from grpc_service.grpc_service import grps_server_run
+from grpc_server.grpc_server import grpc_server_run
 import asyncio
 
-asyncio.run(grps_server_run())
+asyncio.run(grpc_server_run())

@@ -1,0 +1,1 @@
+sudo docker compose exec web poetry run alembic upgrade head

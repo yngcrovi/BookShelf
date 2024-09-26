@@ -1,10 +1,12 @@
 version: "3.9"
 services:
-  wed:
+  web:
     build: .
     container_name: fastapi_bookshelf
     external_links: 
       - postgres_bookshelf:postgres_bookshelf
+    depends_on:
+      - postgres
     volumes:
       - ./src:/src
     ports:
@@ -37,6 +39,9 @@ services:
       - redis-data:/data
 
 
+
+
 volumes:  
     rabbitmq_data:  
     redis-data:
+

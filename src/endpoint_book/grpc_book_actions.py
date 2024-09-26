@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from fastapi_cache.decorator import cache
-from grpc_service.grpc_client import GrpcClient
-from grpc_service import book_pb2_grpc, book_pb2
+from grpc_server.grpc_client import GrpcClient
+from grpc_server import book_pb2_grpc, book_pb2
 from auth_user.check_auth import check_auth
 
 route = APIRouter(
@@ -19,7 +19,6 @@ async def get_all_books() -> JSONResponse:
         request = book_pb2.GetAllBooksRequest()
         response = await stub.GetAllBooks(request)
         books_list = []
-        print(response)
         for book in response.books:
             book_dict = {
                 'id': book.id,

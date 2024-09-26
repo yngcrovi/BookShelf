@@ -1,9 +1,9 @@
 import grpc
 from concurrent import futures
-from grpc_service import book_pb2
-from grpc_service import book_pb2_grpc
+from grpc_server import book_pb2
+from grpc_server import book_pb2_grpc
 import threading
-from rebbitmq.consuming_message import rabbit_consumer
+from rabbitmq.consuming_message import rabbit_consumer
 from repository.service.book_service import book_service
 
 class BookService(book_pb2_grpc.BookServicer):
@@ -46,7 +46,7 @@ class BookService(book_pb2_grpc.BookServicer):
             )
         return book_pb2.GetAllBooksResponse(books=book_responses)
 
-async def grps_server_run():
+async def grpc_server_run():
     server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
     book_pb2_grpc.add_BookServicer_to_server(BookService(), server)
     server.add_insecure_port('[::]:50051')
