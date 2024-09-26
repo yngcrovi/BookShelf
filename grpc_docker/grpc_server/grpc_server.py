@@ -1,10 +1,10 @@
 import grpc
 from concurrent import futures
-from grpc_server import book_pb2
-from grpc_server import book_pb2_grpc
+from grpc_docker.grpc_server import book_pb2
+from grpc_docker.grpc_server import book_pb2_grpc
 import threading
 from rabbitmq.consuming_message import rabbit_consumer
-from repository.service.book_service import book_service
+from fastapi_server.repository.service.book_service import book_service
 
 class BookService(book_pb2_grpc.BookServicer):
     async def GetBook(self, request, context):

@@ -2,9 +2,9 @@ from fastapi import FastAPI
 from redis import asyncio as aioredis
 from fastapi_cache import FastAPICache
 from fastapi_cache.backends.redis import RedisBackend
-from endpoint_book.book_actions import route as book_actions
-from endpoint_book.grpc_book_actions import route as grpc_book_actions
-from auth_user.endpoint_auth.endpoint_auth import route as auth
+from fastapi_server.endpoint_book.book_actions import route as book_actions
+from fastapi_server.endpoint_book.grpc_book_actions import route as grpc_book_actions
+from fastapi_server.auth_user.endpoint_auth.endpoint_auth import route as auth
 
 app = FastAPI()
 

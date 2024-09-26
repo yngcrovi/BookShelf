@@ -2,9 +2,9 @@ from typing import Annotated
 from fastapi import Depends, APIRouter, HTTPException, status, Cookie
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
-from repository.service.user_service import user_service
-from auth_user.token import get_access_token
-from auth_user.hash_password import make_hesh_password, compare_hesh_password
+from ...repository.service.user_service import user_service
+from ...auth_user.token import get_access_token
+from ...auth_user.hash_password import make_hesh_password, compare_hesh_password
 
 route = APIRouter(
     prefix='/auth',

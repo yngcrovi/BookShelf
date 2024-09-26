@@ -3,9 +3,9 @@ from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 from fastapi_cache.decorator import cache
 import datetime
-from repository.service.book_service import book_service
+from ..repository.service.book_service import book_service
 from rabbitmq.publish_message import publish_message
-from auth_user.check_auth import check_auth
+from ..auth_user.check_auth import check_auth
 
 route = APIRouter(
     prefix='/book',

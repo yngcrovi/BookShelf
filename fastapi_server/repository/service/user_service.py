@@ -1,7 +1,7 @@
-from repository.posgres.posgres import PostgreSQLRepository
-from repository.models.models import User
-from repository.models.declarative_base.declarative_base import Base
-from repository.service.dto_form.dto_form import GetUserDTO, GetUserSaltDTO
+from fastapi_server.repository.posgres.posgres import PostgreSQLRepository
+from fastapi_server.repository.models.models import User
+from fastapi_server.repository.models.declarative_base.declarative_base import Base
+from fastapi_server.repository.service.dto_form.dto_form import GetUserDTO, GetUserSaltDTO
 
 
 class UserService(PostgreSQLRepository):

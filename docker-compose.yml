@@ -1,14 +1,14 @@
 version: "3.9"
 services:
   web:
-    build: .
+    build: ./fastapi_server
     container_name: fastapi_bookshelf
     external_links: 
       - postgres_bookshelf:postgres_bookshelf
     depends_on:
       - postgres
     volumes:
-      - ./src:/src
+      - ./fastapi_server:/fastapi_server
     ports:
       - "8000:8000"
   postgres:

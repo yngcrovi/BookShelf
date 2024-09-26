@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from fastapi_cache.decorator import cache
-from grpc_server.grpc_client import GrpcClient
-from grpc_server import book_pb2_grpc, book_pb2
-from auth_user.check_auth import check_auth
+from grpc_docker.grpc_server.grpc_client import GrpcClient
+from grpc_docker.grpc_server import book_pb2, book_pb2_grpc
+from fastapi_server.auth_user.check_auth import check_auth
 
 route = APIRouter(
     prefix='/grpc-book',

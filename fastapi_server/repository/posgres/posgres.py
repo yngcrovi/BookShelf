@@ -1,6 +1,6 @@
-from repository.config.engine import async_session_factory
+from fastapi_server.repository.config.engine import async_session_factory
 from sqlalchemy import select, update, delete
-from repository.models.declarative_base.declarative_base import Base
+from fastapi_server.repository.models.declarative_base.declarative_base import Base
 from pydantic import BaseModel
 from .abc import AbstractRepository
 

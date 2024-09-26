@@ -1,7 +1,7 @@
-from repository.posgres.posgres import PostgreSQLRepository
-from repository.models.models import Book
-from repository.models.declarative_base.declarative_base import Base
-from repository.service.dto_form.dto_form import GetIdBookDTO
+from fastapi_server.repository.posgres.posgres import PostgreSQLRepository
+from fastapi_server.repository.models.models import Book
+from fastapi_server.repository.models.declarative_base.declarative_base import Base
+from fastapi_server.repository.service.dto_form.dto_form import GetIdBookDTO
 
 
 class BookService(PostgreSQLRepository):

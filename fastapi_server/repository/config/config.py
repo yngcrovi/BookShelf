@@ -4,7 +4,7 @@ import os
 def path_env():
     work_dir = os.getcwd()
     print(work_dir)
-    if work_dir.endswith('src'):
+    if work_dir.endswith('fastapi'):
         return '../.env'
     else:
         return './.env'
