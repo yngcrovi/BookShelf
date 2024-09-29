@@ -1,10 +1,16 @@
-import grpc
-from concurrent import futures
-from grpc_docker.grpc_server import book_pb2
-from grpc_docker.grpc_server import book_pb2_grpc
-import threading
+from grpc import aio
+import time
+from . import book_pb2, book_pb2_grpc
+import asyncio
 from rabbitmq.consuming_message import rabbit_consumer
 from fastapi_server.repository.service.book_service import book_service
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+GRPC_HOST = os.getenv("GRPC_HOST")
+GRPC_PORT = os.getenv("GRPC_PORT")
 
 class BookService(book_pb2_grpc.BookServicer):
     async def GetBook(self, request, context):
@@ -47,13 +53,17 @@ class BookService(book_pb2_grpc.BookServicer):
         return book_pb2.GetAllBooksResponse(books=book_responses)
 
 async def grpc_server_run():
-    server = grpc.aio.server(futures.ThreadPoolExecutor(max_workers=10))
+    server = aio.server()
     book_pb2_grpc.add_BookServicer_to_server(BookService(), server)
-    server.add_insecure_port('[::]:50051')
+    server.add_insecure_port(f'{GRPC_HOST}:{GRPC_PORT}')
     await server.start()
     print("gRPC server started on port 50051")
-    consumer_thread = threading.Thread(target=rabbit_consumer)
-    consumer_thread.start()
-    print("consumer listen...")
-    await server.wait_for_termination()
+    time.sleep(5)
+    asyncio.create_task(rabbit_consumer())
+    try:
+        await server.wait_for_termination()
+    except KeyboardInterrupt:
+        print("Сервер остановлен.")
+    finally:
+       await server.stop()
 

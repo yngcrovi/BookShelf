@@ -1,16 +1,43 @@
 version: "3.9"
 services:
-  web:
-    build: ./fastapi_server
+  fastapi:
+    build:
+      context: .  
+      dockerfile: fastapi_server/Dockerfile
     container_name: fastapi_bookshelf
     external_links: 
       - postgres_bookshelf:postgres_bookshelf
+      - rabbitmq_bookshelf:rabbitmq_bookshelf
     depends_on:
       - postgres
+      - grpc
+      - rabbitmq
     volumes:
       - ./fastapi_server:/fastapi_server
+    env_file:
+      - ./.env
+    networks:
+      - server
     ports:
       - "8000:8000"
+  grpc:
+    build:
+      context: .
+      dockerfile: grpc_server/Dockerfile
+    container_name: grpc_bookshelf
+    external_links:
+      - rabbitmq_bookshelf:rabbitmq_bookshelf 
+    depends_on:
+      - rabbitmq
+    volumes:
+      - ./grpc_server:/grpc_server
+    networks:
+      - server
+    env_file:
+      - ./.env
+    ports:
+      - "50051:50051" 
+    tty: true
   postgres:
     image: postgres:13.3
     container_name: postgres_bookshelf
@@ -18,6 +45,8 @@ services:
       - ./.env
     volumes:
       - .:/docker-entrypoint-initdb.d
+    networks:
+      - server
     ports:
       - "5432:5432"
   rabbitmq:  
@@ -30,16 +59,21 @@ services:
       - ./.env 
     volumes:  
       - rabbitmq_data:/var/lib/rabbitmq  
+    networks:
+      - server
   redis:
     image: redis:latest
     container_name: redis_bookshelf
     ports:
       - "6379:6379"
+    networks:
+      - server
     volumes:
       - redis-data:/data
 
 
-
+networks:
+  server:
 
 volumes:  
     rabbitmq_data:  

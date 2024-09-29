@@ -1,4 +1,4 @@
-FROM tiangolo/uvicorn-gunicorn-fastapi:python3.11
+FROM python:3.11
 
 WORKDIR /app
 
@@ -15,11 +15,18 @@ COPY poetry/pyproject.toml poetry/poetry.lock ./
 RUN pip install --upgrade pip
 
 RUN pip install poetry && poetry install --no-root
-RUN pip install fastapi-cache2[redis]
 RUN poetry update
+RUN pip install grpcio grpcio-tools
+RUN pip install pika
+RUN pip install aio_pika
+RUN pip install python-dotenv
+RUN pip install sqlalchemy
+RUN pip install pydantic_settings
+RUN pip install psycopg-binary
+RUN pip install psycopg
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 50051
 
-CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["python3", "start_grpc_server.py"]

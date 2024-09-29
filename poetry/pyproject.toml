@@ -23,6 +23,7 @@ python-dotenv = "^1.0.1"
 pydantic = "^2.9.2"
 fastapi-cache2 = {extras = ["redis"], version = "^0.2.2"}
 psycopg = "^3.2.2"
+aio-pika = "^9.4.3"
 
 [build-system]
 requires = ["poetry-core"]

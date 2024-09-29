@@ -30,7 +30,7 @@ async def add_book(
 ) -> JSONResponse:
     new_book = new_book.model_dump()
     new_book['date_of_publication'] = new_book['date_of_publication'].strftime('%Y-%m-%d')
-    await book_service.insert_book(new_book)
+    await book_service.insert_book(new_book)    
     publish_message("add_book", {'new_book': new_book})
     info = {
         "info": "The book has been added successfully"

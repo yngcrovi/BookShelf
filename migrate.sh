@@ -1,1 +1,1 @@
-sudo docker compose exec web poetry run alembic upgrade head
+sudo docker compose exec fastapi poetry run alembic upgrade head

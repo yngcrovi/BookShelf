@@ -1,9 +1,16 @@
 from fastapi import APIRouter, Depends
 from fastapi.responses import JSONResponse
 from fastapi_cache.decorator import cache
-from grpc_docker.grpc_server.grpc_client import GrpcClient
-from grpc_docker.grpc_server import book_pb2, book_pb2_grpc
+from grpc_server import book_pb2, book_pb2_grpc
 from fastapi_server.auth_user.check_auth import check_auth
+from dotenv import load_dotenv
+import os
+from grpc import aio
+
+load_dotenv()
+
+GRPC_HOST = os.getenv("GRPC_HOST")
+GRPC_PORT = os.getenv("GRPC_PORT")
 
 route = APIRouter(
     prefix='/grpc-book',
@@ -14,7 +21,7 @@ route = APIRouter(
 @route.get("/all")
 @cache(expire=20)
 async def get_all_books() -> JSONResponse:
-    async with GrpcClient('localhost:50051') as channel:
+    async with aio.insecure_channel(f'{GRPC_HOST}:{GRPC_PORT}') as channel:
         stub = book_pb2_grpc.BookStub(channel)
         request = book_pb2.GetAllBooksRequest()
         response = await stub.GetAllBooks(request)
@@ -41,7 +48,7 @@ async def get_all_books() -> JSONResponse:
 @route.get("/{book_id}")
 @cache(expire=20)
 async def get_book_for_id(book_id: int) -> JSONResponse:
-    async with GrpcClient('localhost:50051') as channel:
+    async with aio.insecure_channel(f'{GRPC_HOST}:{GRPC_PORT}') as channel:
         stub = book_pb2_grpc.BookStub(channel)
         request = book_pb2.GetBookRequest(id=book_id)
         response = await stub.GetBook(request)

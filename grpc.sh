@@ -1,1 +1,0 @@
-sudo docker compose exec web poetry run python3 start_grpc_server.py
