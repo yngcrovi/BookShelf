@@ -102,7 +102,7 @@ async def login(
         content=info, 
         status_code=200
         )
-    response.set_cookie(key='access_token', value=f'{access_token}', httponly=True, domain='127.0.0.1')
+    response.set_cookie(key='access_token', value=f'{access_token}', httponly=True)
     return response
 
 @route.post("/logout")
@@ -124,5 +124,5 @@ async def logout(
         content=info, 
         status_code=200
         )
-    response.delete_cookie(key='access_token', httponly=True, domain='127.0.0.1')
+    response.delete_cookie(key='access_token', httponly=True)
     return response

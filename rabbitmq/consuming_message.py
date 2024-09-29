@@ -1,4 +1,3 @@
-from .rebbit_coonection import rebbit_coonection
 import aio_pika
 from dotenv import load_dotenv
 import os
@@ -16,12 +15,10 @@ async def rabbit_consumer():
     connection = await aio_pika.connect_robust(RABBITMQ_URL)
     channel = await connection.channel()  
     queue = await channel.declare_queue('book action', durable=True)
-    print("Подключен к RabbitMQ и ждет сообщения...")
+    print("Connecting to RabbitMQ and waiting for messages...")
     async for message in queue:
-        print(1)
         async with message.process():
-            print(2)
-            print(f"Получено сообщение: {message.body.decode()}")
+            print(f"Message: {message.body.decode()}")
 
 
 

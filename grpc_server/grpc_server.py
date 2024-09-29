@@ -58,12 +58,12 @@ async def grpc_server_run():
     server.add_insecure_port(f'{GRPC_HOST}:{GRPC_PORT}')
     await server.start()
     print("gRPC server started on port 50051")
-    time.sleep(5)
+    time.sleep(10)
     asyncio.create_task(rabbit_consumer())
     try:
         await server.wait_for_termination()
     except KeyboardInterrupt:
-        print("Сервер остановлен.")
+        print("The server is down")
     finally:
        await server.stop()
 
